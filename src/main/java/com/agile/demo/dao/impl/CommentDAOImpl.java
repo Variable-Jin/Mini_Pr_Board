@@ -7,6 +7,7 @@ import com.agile.demo.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -42,8 +43,8 @@ public class CommentDAOImpl implements CommentDAO {
         if (selectComment.isPresent()) {
             Comment comment = selectComment.get();
 
-            comment.getCommentWriter();
-            comment.getCommentContents();
+            comment.setCommentWriter(commentWriter);
+            comment.setCommentContents(commentContents);
             comment.setUpdatedAT(LocalDateTime.now());
 
             updateComment = commentRepository.save(comment);

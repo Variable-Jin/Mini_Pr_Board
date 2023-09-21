@@ -2,9 +2,12 @@ package com.agile.demo.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Comment")
@@ -16,16 +19,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String commentWriter;
 
     @Column(nullable = false, length = 500)
     private String commentContents;
-
-    // 삭제 여부 플래그
-    @Column(nullable = false)
-    private boolean deleted = false;
-
 
     private LocalDateTime createdAT;
     private LocalDateTime updatedAT;
@@ -34,5 +32,13 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_idx")
     private Board board;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parentId")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Comment> childComments = new ArrayList<>();
+
 
 }

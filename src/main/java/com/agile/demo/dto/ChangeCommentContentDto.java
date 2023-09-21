@@ -1,5 +1,10 @@
 package com.agile.demo.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ChangeCommentContentDto {
 
     private Long commentId;
@@ -9,4 +14,5 @@ public class ChangeCommentContentDto {
         this.commentId = commentId;
         this.commentContents = commentContents;
     }
+
 }
