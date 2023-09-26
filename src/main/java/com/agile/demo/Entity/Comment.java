@@ -38,7 +38,7 @@ public class Comment {
     private Comment parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Comment> childComments = new ArrayList<>();
+    private List<Comment> children = new ArrayList<>();
 
 
 }

@@ -1,6 +1,7 @@
 package com.agile.demo.controller;
 
 
+import com.agile.demo.Entity.Comment;
 import com.agile.demo.dto.*;
 import com.agile.demo.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,15 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
 
     }
+//    @PostMapping("/reply")
+//    public ResponseEntity<CommentResponseDto> createComment(@RequestBody Long parentCommentId, @RequestBody CommentDto commentDto) {
+//        Comment parentComment = commentService.selectComment(parentCommentId);
+//        Comment childComment = new Comment();
+//
+//        CommentResponseDto commentResponseDto = new CommentResponseDto(savedChildComment.getId(), savedChildComment.getcommnetContent());
+//
+//        return ResponseEntity.status(HttpStatus.OK.).body(commentResponseDto);
+//    }
 
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> changeCommentContent(

@@ -8,6 +8,7 @@ import com.agile.demo.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 
 
@@ -34,15 +35,16 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+
     @Override
-    public CommentResponseDto saveComment(CommentDto commentDto) {
+    public CommentResponseDto saveComment(CommentDto commentDto, Long parentId) {
         Comment comment = new Comment();
         comment.setCommentWriter(comment.getCommentWriter());
         comment.setCommentContents(comment.getCommentContents());
         comment.setCreatedAT(LocalDateTime.now());
         comment.setUpdatedAT(LocalDateTime.now());
 
-        Comment savedComment = commentDAO.insertComment(comment);
+        Comment savedComment = commentDAO.insertComment(comment, parentId);
 
         CommentResponseDto commentResponseDto = new CommentResponseDto();
         commentResponseDto.setCommentId(savedComment.getCommentId());
