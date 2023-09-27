@@ -1,11 +1,14 @@
 package com.agile.demo.controller;
 
+import com.agile.demo.Entity.Board;
 import com.agile.demo.dto.BoardDto;
 import com.agile.demo.dto.BoardResponseDto;
 
 import com.agile.demo.dto.ChangeBoardTitleDto;
 import com.agile.demo.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,11 @@ public class BoardController {
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
 
+    }
+
+    @GetMapping
+    public Page<Board> getAllBoards(Pageable pageable) {
+        return BoardService.findAll(pageable);
     }
 
     @GetMapping("/{BoardIdx}")

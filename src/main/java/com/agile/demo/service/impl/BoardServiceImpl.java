@@ -5,6 +5,8 @@ import com.agile.demo.dao.BoardDAO;
 import com.agile.demo.dto.BoardDto;
 import com.agile.demo.dto.BoardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.agile.demo.service.BoardService;
 
@@ -18,6 +20,11 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     public BoardServiceImpl(BoardDAO boardDAO) {
         this.boardDAO = boardDAO;
+    }
+
+    @Override
+    public Page<Board> findAll(Pageable pageable) {
+        return boardDAO.findAll(pageable);
     }
 
     @Override

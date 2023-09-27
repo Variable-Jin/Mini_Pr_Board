@@ -4,6 +4,8 @@ import com.agile.demo.Entity.Board;
 import com.agile.demo.dao.BoardDAO;
 import com.agile.demo.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,11 @@ public class BoardDAOImpl implements BoardDAO {
     @Autowired
     public BoardDAOImpl(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
+    }
+
+    @Override
+    public Page<Board> findAll(Pageable pageable) {
+        return boardRepository.findAll(pageable);
     }
 
     @Override
