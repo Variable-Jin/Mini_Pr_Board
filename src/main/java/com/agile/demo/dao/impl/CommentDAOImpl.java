@@ -3,15 +3,14 @@ package com.agile.demo.dao.impl;
 import com.agile.demo.Entity.Comment;
 import com.agile.demo.dao.CommentDAO;
 import com.agile.demo.repository.CommentRepository;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.agile.demo.Entity.QComment.comment;
 
 @Component
 public class CommentDAOImpl implements CommentDAO {
@@ -37,18 +36,25 @@ public class CommentDAOImpl implements CommentDAO {
         Comment savedComment = commentRepository.save(comment);
 
         return savedComment;
-ds
+
     }
 
-//    @Override
+    @Override
     public Comment selectComment(Long commentId) {
         Comment selectComment = commentRepository.getById(commentId);
-//
-//        comment.setchildren(queryFactory.selectFrom(QComment.comment)
-//                .where(QComment.comment.parentComment.id.eq(commentId))
-//                .fatch());
 
         return selectComment;
+    }
+
+    public List<Comment> findByComment(Long commentId) {
+        return queryFactory.selectFrom(comment)
+                .leftJoin(comment.parent).fetchJoin()
+                .where(comment.parent.commentId.eq(commentId))
+                .orderBy(
+                        comment.parent.commentId.asc().nullsFirst(),
+                        comment.createdAT.asc()
+                )
+                .fetch();
     }
 
     @Override
