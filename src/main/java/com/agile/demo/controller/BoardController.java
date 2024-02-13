@@ -27,9 +27,9 @@ public class BoardController {
     }
 
     // 특정 게시판 조회
-    @GetMapping("/api/boards/{BoardIdx}")
-    public ResponseEntity<Board> getBoard(@PathVariable Long BoardIdx) {
-        Board board = boardService.findById(BoardIdx);
+    @GetMapping("/api/boards/{BoardId}")
+    public ResponseEntity<Board> getBoard(@PathVariable Long BoardId) {
+        Board board = boardService.findById(BoardId);
 
         if (board != null) {
             return ResponseEntity.ok(board);
@@ -52,7 +52,7 @@ public class BoardController {
 
 
     // 게시판 업데이트
-    @PatchMapping("/api/boards/{BoardIdx}")
+    @PatchMapping("/api/boards/{BoardId}")
     public ResponseEntity<Board> updateBoard(@PathVariable Long BoardIdx, @RequestBody BoardDto boardDto) {
         Board updated = boardService.update(BoardIdx, boardDto);
 
@@ -65,9 +65,9 @@ public class BoardController {
 
 
     // 게시판 삭제
-    @DeleteMapping("/api/boards/{BoardIdx}")
-    public ResponseEntity<Board> deletedBoard(@PathVariable Long BoardIdx) {
-        Board deleted = boardService.delete(BoardIdx);
+    @DeleteMapping("/api/boards/{BoardId}")
+    public ResponseEntity<Board> deletedBoard(@PathVariable Long BoardId) {
+        Board deleted = boardService.delete(BoardId);
 
         if (deleted != null ) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

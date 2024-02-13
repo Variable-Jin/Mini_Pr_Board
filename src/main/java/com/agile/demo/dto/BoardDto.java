@@ -12,12 +12,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class BoardDto {
 
-    private Long BoardIdx;
+    private Long BoardId;
     private String title;
     private String contents;
 
     public Board toEntity() {
-        return new Board(BoardIdx, title, contents);
+        return new Board(BoardId, title, contents);
     }
 
 

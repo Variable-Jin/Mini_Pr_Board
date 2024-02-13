@@ -25,14 +25,14 @@ public class BoardService {
 
     public Board create(BoardDto boardDto) {
         Board board = boardDto.toEntity();
-        if (board.getBoardIdx() != null) {
+        if (board.getBoardId() != null) {
             return null;
         }
         return boardRepository.save(board);
     }
 
-    public Board update(Long boardIdx, BoardDto boardDto) {
-        Board board = boardRepository.findById(boardIdx)
+    public Board update(Long boardId, BoardDto boardDto) {
+        Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("게시판을 업데이트 할 수 없습니다. 대상 id가 없습니다"));
 
         board.setTitle(boardDto.getTitle());
@@ -41,8 +41,8 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public Board delete(Long boardIdx) {
-        Board deleted = boardRepository.findById(boardIdx).orElse(null);
+    public Board delete(Long boardId) {
+        Board deleted = boardRepository.findById(boardId).orElse(null);
 
         if (deleted != null) {
             boardRepository.delete(deleted);
