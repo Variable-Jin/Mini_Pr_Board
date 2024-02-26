@@ -53,8 +53,8 @@ public class BoardController {
 
     // 게시판 업데이트
     @PatchMapping("/api/boards/{BoardId}")
-    public ResponseEntity<Board> updateBoard(@PathVariable Long BoardIdx, @RequestBody BoardDto boardDto) {
-        Board updated = boardService.update(BoardIdx, boardDto);
+    public ResponseEntity<Board> updateBoard(@PathVariable Long BoardId, @RequestBody BoardDto boardDto) {
+        Board updated = boardService.update(BoardId, boardDto);
 
         if (updated != null) {
             return ResponseEntity.status(HttpStatus.OK).body(updated);

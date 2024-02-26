@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class CommentService {
 
     @Transactional
     public CommentDto create(Long boardId, CommentDto commentDto) {
+//        LocalDateTime updatedAT = createdAT;
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalArgumentException("댓글 생성을 실패했습니다" + "대상 게시글이 없습니다."));
         Comment comment = Comment.createComment(commentDto, board);
@@ -38,10 +40,28 @@ public class CommentService {
         return CommentDto.createCommentDto(created);
     }
 
+
+    public CommentDto createReply(Long boardId, Long parentId, CommentDto commentDto) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("대댓글 생성을 실패했습니다" + "대상 댓글이 없습니다"));
+
+        // 부모 댓글 검색
+        List<Comment> parentComments = commentRepository.findByParentId(parentId);
+        Comment parentComment = parentComments.stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("대댓글 생성을 실패했습니다. 부모 댓글이 없습니다"));
+
+        Comment reply = Comment.createReply(commentDto, board, parentComment);
+        Comment createdReply = commentRepository.save(reply);
+        return CommentDto.createReplyCommentDto(createdReply);
+    }
+
     @Transactional
     public CommentDto updated(Long id, CommentDto commentDto) {
         Comment target = commentRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("댓글 수정을 실패했습니다" + "대상 댓글이 없습니다."));
+        LocalDateTime now = LocalDateTime.now();
+        commentDto.setUpdatedAT(now);
         target.patch(commentDto);
         Comment updated = commentRepository.save(target);
         return CommentDto.createCommentDto(updated);
@@ -54,4 +74,5 @@ public class CommentService {
         commentRepository.delete(target);
         return CommentDto.createCommentDto(target);
     }
+
 }
