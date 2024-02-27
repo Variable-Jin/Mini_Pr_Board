@@ -42,14 +42,20 @@ public class CommentService {
 
 
     public CommentDto createReply(Long boardId, Long parentId, CommentDto commentDto) {
+
+        Comment parentComment = null;
+        if (parentId != null) {
+            parentComment = commentRepository.findById(parentId)
+                    .orElseThrow(()-> new IllegalArgumentException("대댓글 생성을 실패했습니다" + "부모 댓글이 존재하지 않습니다"));
+        }
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("대댓글 생성을 실패했습니다" + "대상 댓글이 없습니다"));
 
-        // 부모 댓글 검색
-        List<Comment> parentComments = commentRepository.findByParentId(parentId);
-        Comment parentComment = parentComments.stream()
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("대댓글 생성을 실패했습니다. 부모 댓글이 없습니다"));
+//        부모 댓글 검색
+//        List<Comment> parentComments = commentRepository.findByParentId(parentId);
+//        Comment parentComment = parentComments.stream()
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("대댓글 생성을 실패했습니다. 부모 댓글이 없습니다"));
 
         Comment reply = Comment.createReply(commentDto, board, parentComment);
         Comment createdReply = commentRepository.save(reply);

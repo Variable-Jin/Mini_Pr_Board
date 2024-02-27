@@ -59,10 +59,12 @@ public class Comment {
                 board,
                 commentDto.getNickname(),
                 commentDto.getCommentbody(),
-                commentDto.getParentId(),
+                null,
                 commentDto.getCreatedAT(),
                 commentDto.getUpdatedAT()
         );
+
+
 
     }
 
